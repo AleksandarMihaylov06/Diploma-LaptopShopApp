@@ -37,6 +37,8 @@ namespace LaptopShopApp
 
             builder.Services.AddTransient<ICategoryService, CategoryService>();
             builder.Services.AddTransient<IBrandService, BrandServise>();
+            builder.Services.AddTransient<IProductService, ProductService>();
+
 
             var app = builder.Build();
 
