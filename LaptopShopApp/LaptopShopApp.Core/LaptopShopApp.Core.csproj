@@ -2,18 +2,21 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <RootNamespace>LaptopShopApp.Infrastructure</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
-
-	<ItemGroup>
+	
+<ItemGroup>
 		<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.25" />
 		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.25" />
 		<PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.25" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="6.0.36" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.25" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.25" />
-	</ItemGroup>
+	</ItemGroup>	
 	
+  <ItemGroup>
+    <ProjectReference Include="..\LaptopShopApp.Infrastructure\LaptopShopApp.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>

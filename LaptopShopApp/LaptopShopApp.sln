@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LaptopShopApp", "LaptopShop
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LaptopShopApp.Infrastructure", "LaptopShopApp.Infrastructure\LaptopShopApp.Infrastructure.csproj", "{562E4361-7247-4E43-8E9B-C78AD5BCE783}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LaptopShopApp.Core", "LaptopShopApp.Core\LaptopShopApp.Core.csproj", "{1FA9B800-E43D-47FB-A5A5-9DF2538C3B1E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{562E4361-7247-4E43-8E9B-C78AD5BCE783}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{562E4361-7247-4E43-8E9B-C78AD5BCE783}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{562E4361-7247-4E43-8E9B-C78AD5BCE783}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1FA9B800-E43D-47FB-A5A5-9DF2538C3B1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1FA9B800-E43D-47FB-A5A5-9DF2538C3B1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1FA9B800-E43D-47FB-A5A5-9DF2538C3B1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1FA9B800-E43D-47FB-A5A5-9DF2538C3B1E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
