@@ -37,6 +37,7 @@ namespace LaptopShopApp.Controllers
                     CategoryId = product.CategoryId,
                     CategoryName = product.Category.CategoryName,
                     Picture = product.Picture,
+                    Discription = product.Discription,
                     Quantity = product.Quantity,
                     Price = product.Price,
                     Discount = product.Discount
@@ -63,6 +64,7 @@ namespace LaptopShopApp.Controllers
                 CategoryId = item.CategoryId,
                 CategoryName = item.Category.CategoryName,
                 Picture = item.Picture,
+                Discription = item.Discription,
                 Quantity = item.Quantity,
                 Price = item.Price,
                 Discount = item.Discount
@@ -97,7 +99,7 @@ namespace LaptopShopApp.Controllers
             if (ModelState.IsValid)
             {
                 var createdId = _productService.Create(product.ProductName, product.BrandId, product.CategoryId,
-                    product.Picture, product.Quantity, product.Price, product.Discount);
+                    product.Picture,product.Discription, product.Quantity, product.Price, product.Discount);
                 if (createdId)
                 {
                     return RedirectToAction(nameof(Index));
@@ -121,6 +123,7 @@ namespace LaptopShopApp.Controllers
                 BrandId = product.BrandId,
                 CategoryId = product.CategoryId,
                 Picture = product.Picture,
+                Discription = product.Discription,
                 Quantity = product.Quantity,
                 Price = product.Price,
                 Discount = product.Discount
@@ -150,7 +153,7 @@ namespace LaptopShopApp.Controllers
             if (ModelState.IsValid)
             {
                 var updated = _productService.Update(id, product.ProductName, product.BrandId,
-                    product.CategoryId, product.Picture,
+                    product.CategoryId, product.Picture,  product.Discription,
                     product.Quantity, product.Price, product.Discount);
                 if (updated)
                 {
@@ -177,6 +180,7 @@ namespace LaptopShopApp.Controllers
                 CategoryId = item.CategoryId,
                 CategoryName = item.Category.CategoryName,
                 Picture = item.Picture,
+                Discription = item.Discription,
                 Quantity = item.Quantity,
                 Price = item.Price,
                 Discount = item.Discount

@@ -27,6 +27,9 @@ namespace LaptopShopApp.Models.Product
         [Display(Name = "Picture")]
         public string Picture { get; set; }
 
+        [Display(Name = "Discription")]
+        public string Discription { get; set; }
+
         [Range(0, 5000)]
         [Display(Name = "Quantity")]
         public int Quantity { get; set; }

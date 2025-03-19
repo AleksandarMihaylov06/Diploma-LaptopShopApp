@@ -20,6 +20,9 @@ namespace LaptopShopApp.Models.Product
         [Display(Name = "Picture")]
         public string Picture { get; set; } = null!;
 
+        [Display(Name = "Discription")]
+        public string Discription { get; set; }
+
         [Display(Name = "Quantity")]
         public int Quantity { get; set; }
 

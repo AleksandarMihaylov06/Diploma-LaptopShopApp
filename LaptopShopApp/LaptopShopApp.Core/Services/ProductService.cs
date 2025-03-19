@@ -18,7 +18,7 @@ namespace LaptopShopApp.Core.Services
             _context = context;
         }
 
-        public bool Create(string name, int brandId, int categoryId, string picture, int quantity, decimal price, decimal discount)
+        public bool Create(string name, int brandId, int categoryId, string picture, string discription, int quantity, decimal price, decimal discount)
         {
             Product item = new Product
             {
@@ -27,6 +27,7 @@ namespace LaptopShopApp.Core.Services
                 Category = _context.Categories.Find(categoryId),
 
                 Picture = picture,
+                Discription = discription,
                 Quantity = quantity,
                 Price = price,
                 Discount = discount
@@ -78,7 +79,7 @@ namespace LaptopShopApp.Core.Services
             return _context.SaveChanges() != 0;
         }
 
-        public bool Update(int productId, string name, int brandId, int categoryId, string picture, int quantity, decimal price, decimal discount)
+        public bool Update(int productId, string name, int brandId, int categoryId, string picture, string discription, int quantity, decimal price, decimal discount)
         {
             var products = GetProductById(productId);
             if (products == default(Product))
@@ -93,6 +94,7 @@ namespace LaptopShopApp.Core.Services
             products.Category = _context.Categories.Find(categoryId);
 
             products.Picture = picture;
+            products.Discription = discription;
             products.Quantity = quantity;
             products.Price = price;
             products.Discount = discount;

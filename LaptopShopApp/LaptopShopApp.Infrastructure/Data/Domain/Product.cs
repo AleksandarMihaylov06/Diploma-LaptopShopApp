@@ -23,11 +23,13 @@ namespace LaptopShopApp.Infrastructure.Data.Domain
 
         public string Picture { get; set; } = null!;
 
+        public string Discription { get; set; } = null!;
+
         [Range(0, 5000)]
         public int Quantity { get; set; }
 
         public decimal Price { get; set; }
         public decimal Discount { get; set; }
-        public virtual IEnumerable<Order> Orders { get; set; } = new List<Order>();
+        public virtual IEnumerable<OrderProduct> OrderProducts { get; set; } = new List<OrderProduct>();
     }
 }
