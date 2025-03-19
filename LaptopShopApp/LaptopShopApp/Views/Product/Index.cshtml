@@ -1,4 +1,7 @@
-﻿@model IEnumerable<LaptopShopApp.Models.Product.ProductIndexVM>
+﻿<head>
+    <link rel="stylesheet" href="~/css/ProductIndex.css" />
+</head>
+@model IEnumerable<LaptopShopApp.Models.Product.ProductIndexVM>
 @{
     ViewData["Title"] = "Index";
 }
@@ -15,22 +18,52 @@
         <input type="submit" value="Filter" />
     </p>
 </form>
-<table class="table">
+<div class="product-container">
+    @foreach (var item in Model)
+    {
+        <div class="product-card">
+            
+            <h3>@Html.DisplayFor(modelItem => item.ProductName)</h3>
+            <img src="@Html.DisplayFor(modelItem => item.Picture)" alt="Image">
+            <p><strong>Category:</strong> @Html.DisplayFor(modelItem => item.CategoryName)</p>
+            <p><strong>Discription:</strong>@Html.DisplayFor(modelItem => item.Discription)</p>
+            <p><strong>Quantity:</strong> @Html.DisplayFor(modelItem => item.Quantity)</p>
+            <p><strong>Price:</strong> $@Html.DisplayFor(modelItem => item.Price)</p>
+            <p><strong>Discount:</strong> @Html.DisplayFor(modelItem => item.Discount) %</p>
+
+            <div class="buttons">
+                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-success">Details</a>
+
+                @if (this.User.Identity.IsAuthenticated)
+                {
+                    <a asp-action="Create" asp-controller="Order" asp-route-id="@item.Id" class="btn btn-warning">Order</a>
+                }
+
+                @if ((this.User.Identity.IsAuthenticated) && (this.User.IsInRole("Administrator")))
+                {
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
+                }
+            </div>
+        </div>
+    }
+</div>
+@*<table class="table">
     <thead>
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.ProductName)
             </th>
-            @*<th>
+           <th>
             @Html.DisplayNameFor(model => model.BrandId)
             13
-            </th>*@
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.BrandName)
             </th>
-            @*<th>
+            <th>
             @Html.DisplayNameFor(model => model.CategoryId)
-            </th>*@
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.CategoryName)
             </th>
@@ -59,21 +92,21 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.ProductName)
                 </td>
-                @*<td>
+                <td>
             @Html.DisplayFor(modelItem => item.BrandId)
-            </td>*@
+            </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.BrandName)
                 </td>
-                @*<td>
+                <td>
             @Html.DisplayFor(modelItem => item.CategoryId)
-            </td>*@
+            </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.CategoryName)
                 </td>
                 <td>
                     <img src="@Html.DisplayFor(modelItem => item.Picture)" alt="Image" width="100" />
-                    @*@Html.DisplayFor(modelItem => item.Pictute)*@
+                    @Html.DisplayFor(modelItem => item.Pictute)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Discription)
@@ -104,7 +137,7 @@
             </tr>
         }
     </tbody>
-</table>
+</table> *@
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");

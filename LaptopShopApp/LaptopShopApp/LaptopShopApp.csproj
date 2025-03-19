@@ -8,6 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Models\OrderProduct\**" />
+    <Content Remove="Models\OrderProduct\**" />
+    <EmbeddedResource Remove="Models\OrderProduct\**" />
+    <None Remove="Models\OrderProduct\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.25" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.35" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.35" />
@@ -26,7 +33,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\OrderProduct\" />
     <Folder Include="Views\ShoppingCart\" />
   </ItemGroup>
 

@@ -66,16 +66,16 @@ namespace LaptopShopApp.Controllers
         {
             string currentUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var product = this._productService.GetProductById(bindingModel.ProductId);
-            if (currentUserId == null || product == null || product.Quantity < bindingModel.Quantity ||
-                product.Quantity == 0)
-            {
-                return RedirectToAction("Denied", "Order");
-            }
-            if (ModelState.IsValid)
-            {
-                _orderService.Create(bindingModel.ProductId, currentUserId, bindingModel.Quantity);
-            }
+            //var product = this._productService.GetProductById(bindingModel.ProductId);
+            //if (currentUserId == null || product == null || product.Quantity < bindingModel.Quantity ||
+            //    product.Quantity == 0)
+            //{
+            //    return RedirectToAction("Denied", "Order");
+            //}
+            //if (ModelState.IsValid)
+            //{
+            //    _orderService.Create(bindingModel.ProductId, currentUserId, bindingModel.Quantity);
+            //}
             return this.RedirectToAction("Index", "Product");
         }
 
@@ -135,10 +135,6 @@ namespace LaptopShopApp.Controllers
                    OrderDate = x.OrderDate.ToString("dd-mm-yyyy hh:mm", CultureInfo.InvariantCulture),
                    UserId = x.UserId,
                    User = x.User.UserName,
-                   ProductId = x.ProductId,
-                   Product = x.Product.ProductName,
-                   Picture = x.Product.Picture,
-                   Discription = x.Product.Discription,
                }).ToList();
             return View(orders);
         }

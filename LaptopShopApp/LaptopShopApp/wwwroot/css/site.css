@@ -16,3 +16,14 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+@media (max-width: 768px){
+    .table th, .table td{
+        font-size: 12px;
+        padding: 8px;
+    }
+
+    h1{
+        font-size: 28px;
+    }
+}
