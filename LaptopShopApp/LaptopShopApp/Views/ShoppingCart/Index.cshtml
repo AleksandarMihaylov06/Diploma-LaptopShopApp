@@ -1,0 +1,30 @@
+﻿@model LaptopShopApp.Models.ShoppingCart.ShoppingCartIndexVM
+@{
+    ViewData["Title"] = "Index";
+}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart</title>
+    <link rel="stylesheet" href="~/css/CartIndex.css">
+</head>
+@* <div class="card-container">
+    @foreach (var item in Model)
+    {
+        <div class="cart-card">
+
+            <h3>@Html.DisplayFor(modelItem => item.ProductName)</h3>
+            <img src="@Html.DisplayFor(modelItem => item.Picture)" alt="Image">
+            <p><strong>Category:</strong> @Html.DisplayFor(modelItem => item.CategoryName)</p>
+            <p><strong>Discription:</strong>@Html.DisplayFor(modelItem => item.Discription)</p>
+            <p><strong>Quantity:</strong> @Html.DisplayFor(modelItem => item.Quantity)</p>
+            <p><strong>Price:</strong> $@Html.DisplayFor(modelItem => item.Price)</p>
+            <p><strong>Discount:</strong> @Html.DisplayFor(modelItem => item.Discount) %</p>
+        </div>
+    }
+</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    } *@

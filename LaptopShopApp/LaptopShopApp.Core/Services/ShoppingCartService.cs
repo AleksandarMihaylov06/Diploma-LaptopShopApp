@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace LaptopShopApp.Core.Services
 {
-    public class ShoppingCartService : IShoppingCart
+    public class ShoppingCartService : IShoppingCartService
     {
         private readonly ApplicationDbContext _context; 
         private readonly IProductService _productService;
@@ -46,6 +46,12 @@ namespace LaptopShopApp.Core.Services
 
             _context.ShoppingCarts.RemoveRange(userCartItems);
             return _context.SaveChanges() != 0;
+        }
+
+        public List<ShoppingCart> GetAll (string userId)
+        {
+            List<ShoppingCart> carts = _context.ShoppingCarts.Where(x => x.UserId == userId).ToList();
+            return carts;
         }
 
         public bool RemoveById(string userId, int productId)

@@ -44,6 +44,7 @@ namespace LaptopShopApp.Controllers
 
                 }).ToList();
             return this.View(products);
+
         }
 
         [AllowAnonymous]

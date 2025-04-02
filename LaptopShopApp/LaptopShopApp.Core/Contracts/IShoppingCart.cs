@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace LaptopShopApp.Core.Contracts
 {
-    public interface IShoppingCart
+    public interface IShoppingCartService
     {
+        List<ShoppingCart> GetAll(string userId);
         bool AddToCart(string userId, int productId ,int quantity);
         bool RemoveById(string userId, int productId);
         bool CleanCart(string userId);

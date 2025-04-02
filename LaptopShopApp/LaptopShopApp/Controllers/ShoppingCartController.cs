@@ -1,40 +1,57 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using LaptopShopApp.Core.Contracts;
+using LaptopShopApp.Data;
+using LaptopShopApp.Infrastructure.Data.Domain;
+using LaptopShopApp.Models.ShoppingCart;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace LaptopShopApp.Controllers
 {
     public class ShoppingCartController : Controller
     {
+        private readonly IShoppingCartService _cartService;
+
+        public ShoppingCartController(IShoppingCartService cartService)
+        {
+            _cartService = cartService;
+        }
+
         // GET: ShoppingCartController
         public ActionResult Index()
         {
-            return View();
-        }
+            string currentUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userCart = _cartService.GetAll(currentUserId);
+            if(userCart == null)
+            {
+                return View();
+            }
+            return View(new ShoppingCartIndexVM()
+            {
+                UserId = currentUserId,
+                Products = userCart.Select(x=> new ShoppingCartProductVM()
+                {
+                    ProductId = x.ProductId,
+                    ProductName = x.Product.ProductName,
+                    Picture = x.Product.Picture,
+                    Quantity = x.Quantity
 
-        // GET: ShoppingCartController/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: ShoppingCartController/Create
-        public ActionResult Create()
-        {
-            return View();
+                }).ToList()
+            });
         }
 
         // POST: ShoppingCartController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Add(int productId)
         {
-            try
+            string currentUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var add = _cartService.AddToCart(currentUserId, productId, 1);
+            if (add)
             {
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            else
             {
-                return View();
+                return RedirectToAction("Product","Index");
             }
         }
 

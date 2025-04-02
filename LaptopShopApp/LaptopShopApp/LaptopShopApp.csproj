@@ -32,8 +32,4 @@
     <ProjectReference Include="..\LaptopShopApp.Infrastructure\LaptopShopApp.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Views\ShoppingCart\" />
-  </ItemGroup>
-
 </Project>
