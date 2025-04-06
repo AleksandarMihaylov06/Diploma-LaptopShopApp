@@ -24,18 +24,40 @@ namespace LaptopShopApp.Core.Services
         public bool AddToCart(string userId, int productId, int quantity)
         {
             ShoppingCart? cart = _context.ShoppingCarts.FirstOrDefault(x => x.UserId == userId && x.ProductId == productId);
+            if (quantity <= 0 || cart?.Product.Quantity < quantity)
+            {
+                return false;
+            }
+
             if (cart != null)
             {
-                cart.Quantity += quantity;
-                return _context.SaveChanges() != 0;
+                return ChangeQuantity(userId,productId,quantity);
             }
 
             ShoppingCart shoppingCart = new ShoppingCart()
             {
                 UserId=userId,
-                ProductId=productId
+                ProductId=productId,
+                Quantity=quantity
             };
+            
             _context.ShoppingCarts.Add(shoppingCart);
+            return _context.SaveChanges() != 0;
+        }
+
+        public bool ChangeQuantity(string userId, int productId, int quantity)
+        {
+            ShoppingCart? cart = _context.ShoppingCarts.FirstOrDefault(x => x.UserId == userId && x.ProductId == productId);
+            if (cart == null)
+            {
+                return false;
+            }
+            cart.Quantity += quantity;
+            if (cart.Quantity <= 0 || cart.Product.Quantity < cart.Quantity)
+            {
+                return false;
+            }
+            _context.ShoppingCarts.Update(cart);
             return _context.SaveChanges() != 0;
         }
 
@@ -62,5 +84,7 @@ namespace LaptopShopApp.Core.Services
             _context.ShoppingCarts.Remove(cart);
             return _context.SaveChanges() != 0;
         }
+
+        
     }
 }

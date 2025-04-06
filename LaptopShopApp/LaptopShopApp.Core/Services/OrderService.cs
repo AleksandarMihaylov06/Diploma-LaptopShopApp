@@ -31,7 +31,7 @@ namespace LaptopShopApp.Core.Services
             { 
                 UserId = userId,
                 Address = address,
-                OrderDate = DateTime.UtcNow,
+                OrderDate = DateTime.Now,
                 OrderStatus = OrderStatus.Procesing,  
                 OrderProducts = orderProducts
             };

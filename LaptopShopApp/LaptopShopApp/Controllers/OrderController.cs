@@ -1,9 +1,14 @@
 ﻿using LaptopShopApp.Core.Contracts;
+using LaptopShopApp.Core.Services;
 using LaptopShopApp.Infrastructure.Data.Domain;
+using LaptopShopApp.Models.Brand;
+using LaptopShopApp.Models.Category;
 using LaptopShopApp.Models.Order;
+using LaptopShopApp.Models.Product;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis;
 using System.Globalization;
 using System.Security.Claims;
 
@@ -13,26 +18,43 @@ namespace LaptopShopApp.Controllers
     {
         private readonly IProductService _productService;
         private readonly IOrderService _orderService;
+        private readonly IShoppingCartService _cartService;
 
-        public OrderController(IProductService productService, IOrderService orderService)
+        public OrderController(IProductService productService, IOrderService orderService, IShoppingCartService cartService)
         {
             _productService = productService;
             _orderService = orderService;
+            _cartService = cartService;
         }
 
         // GET: OrderController
         [Authorize(Roles = "Administrator")]
         public ActionResult Index()
         {
-            List<OrderIndexVM> orders = _orderService.GetOrders()
-                .Select(x => new OrderIndexVM
-                {
-                    Id = x.Id,
-                    OrderDate = x.OrderDate.ToString("dd-mm-yyyy hh:mm", CultureInfo.InvariantCulture),
-                    UserId = x.UserId,
-                    User = x.User.UserName,
-                }).ToList();
-            return View(orders);
+            string currentUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var orderProduct = _orderService.GetOrders()
+                .Select(x =>
+                     new OrderIndexVM()
+                     {
+                         UserId = x.UserId,
+                         UserName = x.User.UserName,
+                         DateTime = DateTime.Now,
+                         Address = x.Address,
+                         OrderStatus = x.OrderStatus,
+                         OrderProducts = x.OrderProducts.Select(p =>
+                             new OrderProductIndexVM()
+                             {
+                                 ProductId = p.ProductId,
+                                 ProductName = p.Product.ProductName,
+                                 Pic = p.Product.Picture,
+                                 Discription = p.Product.Discription,
+                                 Quantity = p.Quantity,
+                                 Price = p.Price.ToString(),
+                             }
+                        ).ToList()
+                     }
+                );
+            return View();
         }
 
         // GET: OrderController/Details/5
@@ -42,41 +64,51 @@ namespace LaptopShopApp.Controllers
         }
 
         // GET: OrderController/Create
-        public ActionResult Create(int id)
+        public ActionResult Create()
         {
-            Product product = _productService.GetProductById(id);
-            if (product == null)
+            string currentUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var orderCreate = new OrderCreateVM()
             {
-                return NotFound();
-            }
-            OrderCreateVM order = new OrderCreateVM
-            {
-                ProductId = product.Id,
-                ProductName = product.ProductName,
-                QuantityInStock = product.Quantity,
-                Picture = product.Picture,
+                OrderProducts = _cartService.GetAll(currentUserId)
+                .Select(x => new CreateOrderProductVM()
+                {
+                    ProductId = x.ProductId,
+                    ProductName = x.Product.ProductName,
+                    Pic = x.Product.Picture,
+                    Quantity = x.Quantity,
+                    Price = x.Product.Price,
+                    Discount = x.Product.Discount
+                }).ToList()
             };
-            return View(order);
+
+            orderCreate.TotalPrice = orderCreate.OrderProducts.Select(x => (x.Price - x.Price * x.Discount / 100) * x.Quantity).Sum();
+
+            return View(orderCreate);
         }
 
         // POST: OrderController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(OrderCreateVM bindingModel)
+        public ActionResult Create(OrderCreateVM orderCreate)
         {
-            string currentUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            //var product = this._productService.GetProductById(bindingModel.ProductId);
-            //if (currentUserId == null || product == null || product.Quantity < bindingModel.Quantity ||
-            //    product.Quantity == 0)
-            //{
-            //    return RedirectToAction("Denied", "Order");
-            //}
-            //if (ModelState.IsValid)
-            //{
-            //    _orderService.Create(bindingModel.ProductId, currentUserId, bindingModel.Quantity);
-            //}
-            return this.RedirectToAction("Index", "Product");
+            if (ModelState.IsValid)
+            {
+                string currentUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var created = _orderService.Create(currentUserId, orderCreate.Address, orderCreate.OrderProducts
+                    .Select(x => new OrderProduct()
+                    {
+                        ProductId = x.ProductId,
+                        Quantity = x.Quantity,
+                        Price = x.Price,
+                        Discount = x.Discount
+                    }).ToList());
+                if (created)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+            }
+            return RedirectToAction("Create");
         }
 
         // GET: OrderController/Edit/5
@@ -127,16 +159,29 @@ namespace LaptopShopApp.Controllers
         public ActionResult MyOrders()
         {
             string currentUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            List<OrderIndexVM> orders = _orderService.GetOrdersByUser(currentUserId)
-               .Select(x => new OrderIndexVM
-               {
-                   Id = x.Id,
-                   OrderDate = x.OrderDate.ToString("dd-mm-yyyy hh:mm", CultureInfo.InvariantCulture),
-                   UserId = x.UserId,
-                   User = x.User.UserName,
-               }).ToList();
-            return View(orders);
+            var orderProduct = _orderService.GetOrders()
+                .Select(x =>
+                     new OrderIndexVM()
+                     {
+                         UserId = x.UserId,
+                         UserName = x.User.UserName,
+                         DateTime = DateTime.Now,
+                         Address = x.Address,
+                         OrderStatus = x.OrderStatus,
+                         OrderProducts = x.OrderProducts.Select(p =>
+                             new OrderProductIndexVM()
+                             {
+                                 ProductId = p.ProductId,
+                                 ProductName = p.Product.ProductName,
+                                 Pic = p.Product.Picture,
+                                 Discription = p.Product.Discription,
+                                 Quantity = p.Quantity,
+                                 Price = p.Price.ToString(),
+                             }
+                        ).ToList()
+                     }
+                );
+            return View();
         }
     }
 }

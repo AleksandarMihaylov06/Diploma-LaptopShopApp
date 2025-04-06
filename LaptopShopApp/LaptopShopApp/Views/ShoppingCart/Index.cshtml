@@ -2,29 +2,55 @@
 @{
     ViewData["Title"] = "Index";
 }
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shopping Cart</title>
-    <link rel="stylesheet" href="~/css/CartIndex.css">
-</head>
-@* <div class="card-container">
-    @foreach (var item in Model)
-    {
-        <div class="cart-card">
 
-            <h3>@Html.DisplayFor(modelItem => item.ProductName)</h3>
-            <img src="@Html.DisplayFor(modelItem => item.Picture)" alt="Image">
-            <p><strong>Category:</strong> @Html.DisplayFor(modelItem => item.CategoryName)</p>
-            <p><strong>Discription:</strong>@Html.DisplayFor(modelItem => item.Discription)</p>
-            <p><strong>Quantity:</strong> @Html.DisplayFor(modelItem => item.Quantity)</p>
-            <p><strong>Price:</strong> $@Html.DisplayFor(modelItem => item.Price)</p>
-            <p><strong>Discount:</strong> @Html.DisplayFor(modelItem => item.Discount) %</p>
-        </div>
-    }
+<div>
+    <h1 class="text-center mb-4">Shopping Cart</h1>
+
+    <div>
+        @foreach (var item in Model.Products)
+        {
+            <div class="d-flex shopping-product border rounded">
+                <div>
+                    <img src="@item.Picture" alt="Image" width="100" height="100">
+                </div>
+                <div class="w-100">
+                    <h5 class="text-center">@item.ProductName</h5>
+                    @if (item.HasDiscount)
+                    {
+                        <p class="text-center text-danger">@item.ProductPrice lv.</p>
+                    }
+                    else
+                    {
+                        <p class="text-center">@item.ProductPrice lv.</p>
+                    }
+
+                    <div class="d-flex justify-content-evenly">
+                        <a asp-controller="ShoppingCart" asp-action="Edit" asp-route-productId="@item.ProductId" asp-route-quantity="-1" class="btn btn-primary">-</a>
+                        <p><strong>Quantity: </strong>@item.Quantity</p>
+                        <a asp-controller="ShoppingCart" asp-action="Edit" asp-route-productId="@item.ProductId" asp-route-quantity="1" class="btn btn-primary">+</a>
+                    </div>
+                </div>
+                <div class="remove-product">
+                    <a class="btn btn-outline-danger px-2 py-1 border-0" asp-action="RemoveProduct" asp-route-productId="@item.ProductId"><i class="bi bi-trash"></i></a>
+                </div>
+            </div>
+        }
+
+    </div>
+    <div class="mt-3">
+        <h4>Total price: @Model.TotalPrice lv.</h4>
+    </div>
+
+    <hr />
+
+    <div>
+        <a asp-controller="Order" asp-action="Create" class="btn btn-warning">Order</a>
+        <a asp-controller="ShoppingCart" asp-action="ClearCart" class="btn btn-primary">Clear cart</a>
+    </div>
 </div>
+
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
-    } *@
+}

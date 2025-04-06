@@ -8,6 +8,6 @@ namespace LaptopShopApp.Models.ShoppingCart
         [Required]
         public string UserId { get; set; } = null!;
         public List<ShoppingCartProductVM> Products { get; set; } = null!;
-        public decimal TotalPrice { get; set; }
+        public string? TotalPrice { get; set; }
     }
 }

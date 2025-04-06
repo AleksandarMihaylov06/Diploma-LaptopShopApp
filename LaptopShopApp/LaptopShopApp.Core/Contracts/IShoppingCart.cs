@@ -13,5 +13,6 @@ namespace LaptopShopApp.Core.Contracts
         bool AddToCart(string userId, int productId ,int quantity);
         bool RemoveById(string userId, int productId);
         bool CleanCart(string userId);
+        bool ChangeQuantity(string userId, int productId, int quantity);
     }
 }

@@ -20,6 +20,5 @@ namespace LaptopShopApp.Infrastructure.Data.Domain
         public OrderStatus OrderStatus { get; set; }
         
         public virtual IEnumerable<OrderProduct> OrderProducts { get; set; } = new List<OrderProduct>();
-        //public decimal TotalPrice { get { return this.Quantity * this.Price - this.Quantity * this.Price * this.Discount / 100; } }
     }
 }

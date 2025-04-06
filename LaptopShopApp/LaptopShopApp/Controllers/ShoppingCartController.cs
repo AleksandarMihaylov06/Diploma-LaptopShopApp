@@ -1,9 +1,12 @@
 ﻿using LaptopShopApp.Core.Contracts;
+using LaptopShopApp.Core.Services;
 using LaptopShopApp.Data;
 using LaptopShopApp.Infrastructure.Data.Domain;
+using LaptopShopApp.Models.Product;
 using LaptopShopApp.Models.ShoppingCart;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis;
 using System.Security.Claims;
 
 namespace LaptopShopApp.Controllers
@@ -22,17 +25,20 @@ namespace LaptopShopApp.Controllers
         {
             string currentUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var userCart = _cartService.GetAll(currentUserId);
-            if(userCart == null)
+            if(userCart == null || userCart.Count==0)
             {
-                return View();
+                return View("EmptyIndex");
             }
             return View(new ShoppingCartIndexVM()
             {
+                TotalPrice = userCart.Select(x => (x.Product.Price - x.Product.Price * x.Product.Discount / 100) * x.Quantity).Sum().ToString("f2"),
                 UserId = currentUserId,
-                Products = userCart.Select(x=> new ShoppingCartProductVM()
+                Products = userCart.Select(x => new ShoppingCartProductVM()
                 {
                     ProductId = x.ProductId,
                     ProductName = x.Product.ProductName,
+                    ProductPrice = (x.Product.Price - x.Product.Price * x.Product.Discount / 100).ToString("f2"),
+                    HasDiscount = x.Product.Discount != 0,
                     Picture = x.Product.Picture,
                     Quantity = x.Quantity
 
@@ -51,50 +57,42 @@ namespace LaptopShopApp.Controllers
             }
             else
             {
-                return RedirectToAction("Product","Index");
+                return RedirectToAction("Index","Product");
             }
         }
 
         // GET: ShoppingCartController/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int productId, int quantity)
         {
-            return View();
+            string currentUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            _cartService.ChangeQuantity(currentUserId, productId, quantity);
+            return RedirectToAction(nameof(Index));
         }
 
-        // POST: ShoppingCartController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult ClearCart()
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            string currentUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            _cartService.CleanCart(currentUserId);
+            
+            return RedirectToAction(nameof(Index));
         }
 
-        // GET: ShoppingCartController/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult RemoveProduct(int productId)
         {
-            return View();
-        }
+            if (productId != 0)
+            {
+                string currentUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var removed = _cartService.RemoveById(currentUserId, productId);
 
-        // POST: ShoppingCartController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
+                if (removed)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+
+                return View("Error");
             }
-            catch
-            {
-                return View();
-            }
+
+            return View("Error");
         }
     }
 }
