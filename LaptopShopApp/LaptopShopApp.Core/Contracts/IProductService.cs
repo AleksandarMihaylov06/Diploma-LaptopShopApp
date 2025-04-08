@@ -17,5 +17,6 @@ namespace LaptopShopApp.Core.Contracts
 
         bool RemoveById(int dogproductId);
         List<Product> GetProducts(string searchStringCategoryName, string searchStringBrnadName);
+        void UpdateProduct(Product product);
     }
 }

@@ -1,0 +1,40 @@
+﻿body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #fdfdfd;
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    height: 100vh;
+    box-sizing: border-box;
+    border: 3px solid black;
+}
+
+.container {
+    margin-top: 40px;
+    text-align: center;
+}
+
+h2 {
+    margin-bottom: 20px;
+}
+
+.order-table {
+    display: inline-block;
+    border: 3px solid black;
+    padding: 10px 15px;
+}
+
+.table-header {
+    display: flex;
+    gap: 25px;
+    font-weight: bold;
+    align-items: center;
+}
+
+.icon {
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+}

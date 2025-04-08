@@ -1,8 +1,37 @@
 ﻿@model IEnumerable<LaptopShopApp.Models.Order.OrderIndexVM>
+
 @{
     ViewData["Title"] = "Index";
 }
-<h1>All Orders</h1>
+<h3 class="text-center mb-4">All orders</h3>
+@foreach (var item in Model)
+{
+
+    <details>
+        @{
+            if ((this.User.Identity.IsAuthenticated) && (this.User.IsInRole("Administrator")))
+            {
+                <summary>@item.OrderId | @item.UserName | @item.DateTime | @item.Address | @item.TotalPrice | @item.OrderStatus (editable)</summary>
+            }
+            else
+            {
+                <summary>@item.OrderId | @item.DateTime | @item.Address | @item.TotalPrice | @item.OrderStatus</summary>
+            }
+        }
+        
+        
+        @foreach(var product in item.OrderProducts)
+        {
+            <p>@product.ProductName | @product.Pic | @product.Discription | @product.Quantity | @product.Price</p>
+        }
+    </details>
+    }
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+@* <h1>All Orders</h1>
 <table class="table">
     <thead>
         <tr>
@@ -67,11 +96,11 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.TotalPrice)
-                </td>
-                @*<td>
-            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |  <a asp-action="Details" asp-route-id="@item.Id">Details</a> |  <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>  </td>*@
+                </td> 
+                <td>
+            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |  <a asp-action="Details" asp-route-id="@item.Id">Details</a> |  <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>  </td>
             </tr>
         }
     </tbody>
 </table>
-
+ *@

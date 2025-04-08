@@ -101,5 +101,10 @@ namespace LaptopShopApp.Core.Services
             _context.Update(products);
             return _context.SaveChanges() != 0;
         }
+        public void UpdateProduct(Product product)
+        {
+            _context.Products.Update(product);
+            _context.SaveChanges();
+        }
     }
 }

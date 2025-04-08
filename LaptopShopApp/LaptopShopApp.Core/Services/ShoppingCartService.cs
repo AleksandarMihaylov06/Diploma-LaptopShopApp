@@ -23,8 +23,20 @@ namespace LaptopShopApp.Core.Services
 
         public bool AddToCart(string userId, int productId, int quantity)
         {
+            if (productId == null)
+            {
+                return false;
+            }
+
+            Product? product = _context.Products.FirstOrDefault(x => x.Id == productId);
+
+            if (product?.Quantity <= 0)
+            {
+                return false;
+            }
+
             ShoppingCart? cart = _context.ShoppingCarts.FirstOrDefault(x => x.UserId == userId && x.ProductId == productId);
-            if (quantity <= 0 || cart?.Product.Quantity < quantity)
+            if (quantity <= 0)
             {
                 return false;
             }

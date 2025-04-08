@@ -38,8 +38,10 @@ namespace LaptopShopApp.Controllers
                      {
                          UserId = x.UserId,
                          UserName = x.User.UserName,
-                         DateTime = DateTime.Now,
+                         DateTime = x.OrderDate,
                          Address = x.Address,
+                         OrderId = x.Id,
+                         TotalPrice = x.OrderProducts.Select(x => (x.Product.Price - x.Product.Price * x.Product.Discount / 100) * x.Quantity).Sum().ToString("f2"),
                          OrderStatus = x.OrderStatus,
                          OrderProducts = x.OrderProducts.Select(p =>
                              new OrderProductIndexVM()
@@ -49,16 +51,17 @@ namespace LaptopShopApp.Controllers
                                  Pic = p.Product.Picture,
                                  Discription = p.Product.Discription,
                                  Quantity = p.Quantity,
-                                 Price = p.Price.ToString(),
+                                 Price = (p.Price - p.Product.Price * p.Discount / 100).ToString("f2"),
                              }
                         ).ToList()
                      }
-                );
-            return View();
+                ).OrderByDescending(x => x.OrderId);
+
+            return View(orderProduct);
         }
 
         // GET: OrderController/Details/5
-        public ActionResult Details(int id)
+        public ActionResult UpdateStatus()
         {
             return View();
         }
@@ -70,6 +73,8 @@ namespace LaptopShopApp.Controllers
 
             var orderCreate = new OrderCreateVM()
             {
+                Address = null,
+                
                 OrderProducts = _cartService.GetAll(currentUserId)
                 .Select(x => new CreateOrderProductVM()
                 {
@@ -77,12 +82,12 @@ namespace LaptopShopApp.Controllers
                     ProductName = x.Product.ProductName,
                     Pic = x.Product.Picture,
                     Quantity = x.Quantity,
-                    Price = x.Product.Price,
+                    Price = (x.Product.Price - x.Product.Price * x.Product.Discount / 100).ToString("f2"),
                     Discount = x.Product.Discount
                 }).ToList()
             };
 
-            orderCreate.TotalPrice = orderCreate.OrderProducts.Select(x => (x.Price - x.Price * x.Discount / 100) * x.Quantity).Sum();
+            orderCreate.TotalPrice = orderCreate.OrderProducts.Select(x => decimal.Parse(x.Price) * x.Quantity).Sum();
 
             return View(orderCreate);
         }
@@ -100,73 +105,41 @@ namespace LaptopShopApp.Controllers
                     {
                         ProductId = x.ProductId,
                         Quantity = x.Quantity,
-                        Price = x.Price,
+                        Price = decimal.Parse(x.Price),
                         Discount = x.Discount
                     }).ToList());
                 if (created)
                 {
+                    foreach (var item in orderCreate.OrderProducts)
+                    {
+                        var product = _productService.GetProductById(item.ProductId);
+                        if (product != null)
+                        {
+                            product.Quantity -= item.Quantity;
+
+                            _productService.UpdateProduct(product);
+                        }
+                    }
+                    _cartService.CleanCart(currentUserId);
+                    
                     return RedirectToAction(nameof(Index));
                 }
             }
-            return RedirectToAction("Create");
-        }
-
-        // GET: OrderController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: OrderController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: OrderController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: OrderController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-        public ActionResult Denied()
-        {
-            return View();
+            return View(orderCreate);
         }
         public ActionResult MyOrders()
         {
             string currentUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var orderProduct = _orderService.GetOrders()
+            var orderProduct = _orderService.GetOrdersByUser(currentUserId)
                 .Select(x =>
                      new OrderIndexVM()
                      {
                          UserId = x.UserId,
                          UserName = x.User.UserName,
-                         DateTime = DateTime.Now,
+                         DateTime = x.OrderDate,
                          Address = x.Address,
+                         OrderId = x.Id,
+                         TotalPrice = x.OrderProducts.Select(x => (x.Product.Price - x.Product.Price * x.Product.Discount / 100) * x.Quantity).Sum().ToString("f2"),
                          OrderStatus = x.OrderStatus,
                          OrderProducts = x.OrderProducts.Select(p =>
                              new OrderProductIndexVM()
@@ -176,12 +149,12 @@ namespace LaptopShopApp.Controllers
                                  Pic = p.Product.Picture,
                                  Discription = p.Product.Discription,
                                  Quantity = p.Quantity,
-                                 Price = p.Price.ToString(),
+                                 Price = (p.Price - p.Product.Price * p.Discount / 100).ToString("f2"),
                              }
                         ).ToList()
                      }
-                );
-            return View();
+                ).OrderByDescending(x => x.OrderId);
+            return View("Index",orderProduct);
         }
     }
 }
