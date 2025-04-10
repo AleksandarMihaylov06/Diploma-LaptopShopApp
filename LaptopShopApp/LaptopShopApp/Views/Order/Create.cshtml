@@ -5,17 +5,19 @@
 
 <div>
     <h1 class="text-center mb-4">Order</h1>
-
+    <form asp-action="Create" method="post">
     <div>
-        @foreach (var item in Model.OrderProducts)
+        @for (int i = 0; i < Model.OrderProducts.Count; i++)
         {
             <div class="d-flex shopping-product border rounded">
                 <div>
-                    <img src="@item.Pic" alt="Image" width="100" height="100">
+                        <img src="@Model.OrderProducts[i].Pic" alt="Image" width="100" height="100">
                 </div>
                 <div class="w-100">
-                    <h5 class="text-center">@item.ProductName</h5>
-                        <p class="text-center">@item.Price lv.</p>
+                        <h5 class="text-center">@Model.OrderProducts[i].ProductName</h5>
+                        <p class="text-center">Price: @Model.OrderProducts[i].Price lv.</p>
+                        <p class="text-center">Discount: @Model.OrderProducts[i].Discount %</p>
+                        <p class="text-center">Quantity: @Model.OrderProducts[i].Quantity</p>
                 </div>
             </div>
         }
@@ -30,7 +32,7 @@
        <div class="d-flex">
             <div class="d-flex w-25">
                 <div class="mr-20">
-                    <a asp-controller="Order" asp-action="Create" class="btn btn-warning">Order</a>
+                        <input type="submit" value="Create" class="btn btn-warning" />
                 </div>
                 <div class="mr-20">
                     <a asp-controller="ShoppingCart" asp-action="Index" class="btn btn-primary">Back to cart</a>
@@ -45,6 +47,8 @@
             </div>
        </div>
     </div>
+
+    </form>
 </div>
 
 @section Scripts {
@@ -55,7 +59,7 @@
 
 @* <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create" method="post">
+        
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>  
             <input asp-for="Address" class="form-control" value="@Model.Address" />
             <div class="form-group">
@@ -89,8 +93,8 @@
                 <input asp-for="TotalPrice" class="form-control" value="@Model.TotalPrice" readonly />
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" /> <a asp-controller="ShoppingCart" asp-action="Index" class="btn btn-danger">Back to List</a>
+                 <a asp-controller="ShoppingCart" asp-action="Index" class="btn btn-danger">Back to List</a>
             </div>
-        </form>
+        
     </div>
 </div> *@

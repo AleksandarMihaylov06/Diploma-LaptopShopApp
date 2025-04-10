@@ -11,7 +11,25 @@
         @{
             if ((this.User.Identity.IsAuthenticated) && (this.User.IsInRole("Administrator")))
             {
-                <summary>@item.OrderId | @item.UserName | @item.DateTime | @item.Address | @item.TotalPrice | @item.OrderStatus (editable)</summary>
+                <summary>
+                    @item.OrderId | @item.UserName | @item.DateTime | @item.Address | @item.TotalPrice |
+                    <ul>
+                    <li class="dropdown">
+                        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                            <p>@item.OrderStatus</p>
+                        </button>
+
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                <li><a class="dropdown-item">Procesing</a></li>
+                                <li><a class="dropdown-item">Traveling</a></li>
+                                <li><a class="dropdown-item">Done</a></li>
+                                <li><a class="dropdown-item">Cancelled</a></li>
+                        </ul>
+                    </li>
+                    </ul>
+                
+                @item.OrderStatus (editable)</summary>
             }
             else
             {
