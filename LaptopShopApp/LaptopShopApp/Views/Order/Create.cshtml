@@ -18,6 +18,11 @@
                         <p class="text-center">Price: @Model.OrderProducts[i].Price lv.</p>
                         <p class="text-center">Discount: @Model.OrderProducts[i].Discount %</p>
                         <p class="text-center">Quantity: @Model.OrderProducts[i].Quantity</p>
+                        <input asp-for="@Model.OrderProducts[i].ProductId" hidden/>
+                        <input asp-for="@Model.OrderProducts[i].ProductName" hidden />
+                        <input asp-for="@Model.OrderProducts[i].Price" hidden />
+                        <input asp-for="@Model.OrderProducts[i].Discount" hidden />
+                        <input asp-for="@Model.OrderProducts[i].Quantity" hidden />
                 </div>
             </div>
         }

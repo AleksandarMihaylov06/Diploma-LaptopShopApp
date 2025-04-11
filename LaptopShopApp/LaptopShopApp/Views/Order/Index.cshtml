@@ -1,49 +1,71 @@
-﻿@model IEnumerable<LaptopShopApp.Models.Order.OrderIndexVM>
+﻿@using LaptopShopApp.Infrastructure.Data.Domain
+@model IEnumerable<LaptopShopApp.Models.Order.OrderIndexVM>
 
 @{
     ViewData["Title"] = "Index";
 }
 <h3 class="text-center mb-4">All orders</h3>
-@foreach (var item in Model)
-{
 
-    <details>
-        @{
-            if ((this.User.Identity.IsAuthenticated) && (this.User.IsInRole("Administrator")))
-            {
-                <summary>
-                    @item.OrderId | @item.UserName | @item.DateTime | @item.Address | @item.TotalPrice |
-                    <ul>
-                    <li class="dropdown">
-                        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                            <p>@item.OrderStatus</p>
-                        </button>
+<form asp-controller="Order" asp-action="UpdateStatus" method="post">
 
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                <li><a class="dropdown-item">Procesing</a></li>
-                                <li><a class="dropdown-item">Traveling</a></li>
-                                <li><a class="dropdown-item">Done</a></li>
-                                <li><a class="dropdown-item">Cancelled</a></li>
-                        </ul>
-                    </li>
-                    </ul>
-                
-                @item.OrderStatus (editable)</summary>
+    <button type="submit" class="btn btn-outline-primary">Save changes</button>
+    @foreach (var item in Model)
+    {
+        var statuses = Html.GetEnumSelectList<OrderStatus>();
+
+        <details>
+            @{
+                if ((this.User.Identity.IsAuthenticated) && (this.User.IsInRole("Administrator")))
+                {
+                    <summary>
+                        <div>
+
+                            <div class="d-flex justify-content-between">
+                                
+                                <span>@item.OrderId</span>
+                                <span>@item.UserName</span>
+                                <span>@item.DateTime</span>
+                                <span>@item.Address</span>
+                                <span>@item.TotalPrice</span>
+                                <select asp-for="@item.OrderStatus" class="form-control d-inline w-auto" asp-items="@statuses"></select>
+                                <input asp-for="@item.OrderId" hidden/>
+                            </div>
+                        </div>
+                    </summary>
+                }
+                else
+                {
+                    <summary>@item.DateTime | @item.Address | @item.TotalPrice | @item.OrderStatus</summary>
+                }
             }
-            else
+
+
+            @foreach (var product in item.OrderProducts)
             {
-                <summary>@item.OrderId | @item.DateTime | @item.Address | @item.TotalPrice | @item.OrderStatus</summary>
+                <div class="d-flex border rounded p-2">
+                    <div class="mr-20">
+                        <img src="@product.Pic" height="150" width="150" />
+                    </div>
+                    <div>
+                        <div>
+                            <h5 class="text-center"><a>@product.ProductName</a></h5>
+                        </div>
+                        <div>
+                            <p class="m-0"><strong>Description:</strong> @product.Discription</p>
+                        </div>
+                        <div>
+                            <p class="m-0"><strong>Price:</strong> @product.Price</p>
+                        </div>
+                        <div>
+                            <p class="m-0"><strong>Quantity:</strong> @product.Quantity</p>
+                        </div>
+                    </div>
+                </div>
+                <hr />
             }
-        }
-        
-        
-        @foreach(var product in item.OrderProducts)
-        {
-            <p>@product.ProductName | @product.Pic | @product.Discription | @product.Quantity | @product.Price</p>
-        }
-    </details>
+        </details>
     }
+</form>
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");

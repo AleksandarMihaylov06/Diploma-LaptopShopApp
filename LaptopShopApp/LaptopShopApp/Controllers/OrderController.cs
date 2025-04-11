@@ -1,15 +1,9 @@
 ﻿using LaptopShopApp.Core.Contracts;
-using LaptopShopApp.Core.Services;
 using LaptopShopApp.Infrastructure.Data.Domain;
-using LaptopShopApp.Models.Brand;
-using LaptopShopApp.Models.Category;
 using LaptopShopApp.Models.Order;
-using LaptopShopApp.Models.Product;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
-using System.Globalization;
 using System.Security.Claims;
 
 namespace LaptopShopApp.Controllers
@@ -60,10 +54,10 @@ namespace LaptopShopApp.Controllers
             return View(orderProduct);
         }
 
-        // GET: OrderController/Details/5
-        public ActionResult UpdateStatus()
+        [HttpPost]
+        public ActionResult UpdateStatus(UpdateOrderStatusVM vm)
         {
-            return View();
+            return RedirectToAction(nameof(Create));
         }
 
         // GET: OrderController/Create
@@ -122,7 +116,7 @@ namespace LaptopShopApp.Controllers
                     }
                     _cartService.CleanCart(currentUserId);
                     
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction(nameof(MyOrders));
                 }
             }
             return View(orderCreate);
