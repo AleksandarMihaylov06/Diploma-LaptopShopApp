@@ -15,13 +15,17 @@
     <header>
         <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
             <div class="container-fluid">
-                <a class="navbar-brand text-white" asp-area="" asp-controller="Home" asp-action="Index">LaptopShopApp</a>
+                <a class="navbar-brand text-white" asp-area="" asp-controller="Home" asp-action="Index">LaptopShop</a>
                 <button class="navbar-toggler text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarColor01">
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
+                            <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Contact">Contacts</a>
+                        </li>
+                        <li class="nav-item">
+                           
                             <a class="nav-link text-white"  asp-area="" asp-controller="Product" asp-action="Index">Product</a>
                         </li>
                         @if (this.User.Identity.IsAuthenticated)
@@ -119,7 +123,7 @@
 
     <footer class="border-top border-white footer text-muted">
         <div class="container">
-            &copy; 2025 - LaptopShopApp - <a asp-area="" asp-controller="Home" asp-action="Privacy">Contacts</a>
+            &copy; 2025 - LaptopShopApp - <a asp-area="" asp-controller="Home" asp-action="Contact">Contacts</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
