@@ -24,9 +24,9 @@
         
         <a asp-action="Details" asp-route-id="@item.Id" style="text-decoration: none; color: inherit;"/>
         <div class="product-card">
-            
-            <h3>@Html.DisplayFor(modelItem => item.ProductName)</h3>
             <img src="@Html.DisplayFor(modelItem => item.Picture)" alt="Image">
+            <hr />
+            <h3>@Html.DisplayFor(modelItem => item.ProductName)</h3>
             <p><strong>Category:</strong> @Html.DisplayFor(modelItem => item.CategoryName)</p>
             <p><strong>Discription:</strong>@Html.DisplayFor(modelItem => item.Discription)</p>
             <p><strong>Quantity:</strong> @Html.DisplayFor(modelItem => item.Quantity)</p>

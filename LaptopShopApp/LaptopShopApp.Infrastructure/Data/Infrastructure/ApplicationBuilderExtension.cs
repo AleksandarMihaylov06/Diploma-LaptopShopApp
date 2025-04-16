@@ -81,12 +81,14 @@ namespace LaptopShopApp.Infrastructure.Data.Infrastructure
             dataCategory.Categories.AddRange(new[]
             {
                 new Category {CategoryName="Laptop"},
-                new Category {CategoryName="Computer"},
+                new Category {CategoryName="Mouse"},
                 new Category {CategoryName="Monitor"},
-                new Category {CategoryName="Accessoary"},
-                new Category {CategoryName="TV"},
-                new Category {CategoryName="Moblie phone"},
-                new Category {CategoryName="Smart watch"},
+                new Category {CategoryName="Keyboard"},
+                new Category {CategoryName="Web camera"},
+                new Category {CategoryName="Headphone"},
+                new Category {CategoryName="Microphone"},
+                new Category {CategoryName="Flash dirve"},
+                new Category {CategoryName="External HDD hard drives"},
             });
             dataCategory.SaveChanges();
         }
@@ -103,9 +105,8 @@ namespace LaptopShopApp.Infrastructure.Data.Infrastructure
                 new Brand {BrandName="Apple"},
                 new Brand {BrandName="Dell"},
                 new Brand {BrandName="HP"},
-                new Brand {BrandName="Huawei"},
+                new Brand {BrandName="Apple"},
                 new Brand {BrandName="Lenovo"},
-                new Brand {BrandName="Samsung"},
             });
             dataBrands.SaveChanges();
         }
