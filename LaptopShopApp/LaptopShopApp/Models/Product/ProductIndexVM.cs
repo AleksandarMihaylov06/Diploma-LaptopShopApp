@@ -22,7 +22,9 @@ namespace LaptopShopApp.Models.Product
         public int Quantity { get; set; }
         [Display(Name = "Price")]
         public decimal Price { get; set; }
+        public string PriceWithDiscount { get; set; } 
         [Display(Name = "Discount")]
         public decimal Discount { get; set; }
+        public bool HasDiscount { get; set; }
     }
 }

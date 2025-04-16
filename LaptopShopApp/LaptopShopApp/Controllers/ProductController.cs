@@ -40,8 +40,9 @@ namespace LaptopShopApp.Controllers
                     Discription = product.Discription,
                     Quantity = product.Quantity,
                     Price = product.Price,
-                    Discount = product.Discount
-
+                    PriceWithDiscount = (product.Price - product.Price * product.Discount / 100).ToString("f2").ToString(),
+                    Discount = product.Discount,
+                    HasDiscount = product.Discount != 0,
                 }).ToList();
             return this.View(products);
 
@@ -67,8 +68,10 @@ namespace LaptopShopApp.Controllers
                 Picture = item.Picture,
                 Discription = item.Discription,
                 Quantity = item.Quantity,
-                Price = item.Price,
-                Discount = item.Discount
+                Price = item.Price.ToString(),
+                PriceWithDiscount = (item.Price - item.Price * item.Discount / 100).ToString("f2").ToString(),
+                Discount = item.Discount.ToString(),
+                HasDiscount = item.Discount != 0,
             };
             return View(product);
         }
@@ -184,7 +187,9 @@ namespace LaptopShopApp.Controllers
                 Discription = item.Discription,
                 Quantity = item.Quantity,
                 Price = item.Price,
-                Discount = item.Discount
+                PriceWithDiscount = (item.Price - item.Price * item.Discount / 100).ToString("f2").ToString(),
+                Discount = item.Discount,
+                HasDiscount = item.Discount != 0,
             };
             return View(product);
         }

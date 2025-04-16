@@ -5,62 +5,47 @@
 <h1>Delete</h1>
 <h3>Are you sure you want to delete this?</h3>
 <div>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ProductName)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ProductName)
-        </dd>
+<div style="border: 2px solid black; padding: 50px; width: 1200px; font-size: 1.5rem; display: flex; gap: 40px; margin: auto;">
 
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.BrandName)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.BrandName)
-        </dd>
+    <div style="flex: 1; display: flex; align-items: center; justify-content: center;">
+        <img src="@Model.Picture" alt="Product Image" style="width: 300px; height: 300px; object-fit: fill; border: 2px solid black;" />
+    </div>
 
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.CategoryName)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.CategoryName)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Picture)
-        </dt>
-        <dd class="col-sm-10">
-            <img src="@Html.DisplayFor(model => model.Picture)" alt="Image" width="100" />
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Discription)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Discription)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Quantity)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Quantity)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Price)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Price)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Discount)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Discount)
-        </dd>
-    </dl>
+    <div style="flex: 2;">
+        <h1 style="border-bottom: 3px solid black; padding-bottom: 15px; font-size: 2rem;">@Model.ProductName</h1>
+
+        <p style="margin-top: 25px;">
+            <strong>Description:</strong><br />
+            @Model.Discription
+        </p>
+
+        <hr style="border: 2px solid black; margin: 25px 0;" />
+
+        <p><strong>Quantity:</strong> @Model.Quantity</p>
+
+        <hr style="border: 2px solid black; margin: 25px 0;" />
+
+        @if (Model.HasDiscount)
+        {
+            <strong>Price:</strong>
+            <span style="text-decoration: line-through; color: darkred;">@Model.Price lv.</span>
+            <span style="font-weight: bold; font-size: 20px; color: green;">@Model.PriceWithDiscount lv.</span>
+        }
+        else
+        {
+            <strong>Price:</strong>
+            <span>@Model.Price</span>
+        }
+
+        <hr style="border: 2px solid black; margin: 25px 0;" />
+
+        <p><strong>Discount:</strong> @Model.Discount%</p>
+    </div>
+</div>
     <form asp-action="Delete">
         <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |  <a asp-action="Index">Back to List</a>
+        <input type="submit" value="Delete" style="margin:20px 0px 0px 0px;" class="btn btn-danger" /> 
+        <a asp-action="Index" class="btn btn-primary" style="margin:20px 0px 0px 0px;">Back to List</a>
     </form>
 </div>
 @section Scripts {
