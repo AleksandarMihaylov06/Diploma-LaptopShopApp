@@ -1,8 +1,13 @@
 ﻿@{
     ViewData["Title"] = "EmptyIndex";
 }
-<div class="empty-cart">
-    <h2>Your Shopping Cart is Empty</h2>
+
+<div style ="display:flex; justify-content:center;">
+    <h2 >Your Shopping Cart is Empty</h2>
+</div>
+<div style="display:flex; justify-content:center;">
     <p>There are no products in your cart. Please add some products to your cart.</p>
+</div>
+<div class="empty-cart" style="display:flex; justify-content:center; margin-top:20px;">
     <a class="btn btn-primary" asp-area="" asp-controller="Product" asp-action="Index">Product</a>
 </div>

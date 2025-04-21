@@ -16,12 +16,17 @@
     background-color: #fff;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     width: 320px;
-    height: 280px; 
+    height: 280px;
     margin: 10px;
 }
 
 .message-content {
     flex-grow: 1;
+}
+.message-box {
+    max-width:270px;
+    max-height: 100px;
+    overflow: scroll;
 }
 
 .message-footer {

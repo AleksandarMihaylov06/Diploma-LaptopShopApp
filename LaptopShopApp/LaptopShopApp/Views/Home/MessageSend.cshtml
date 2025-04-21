@@ -2,8 +2,10 @@
     ViewData["Title"] = "Success";
 }
 
-<h1>You successfully send a message!</h1>
+<h1 style="display:flex; justify-content:center;">You successfully send a message!</h1>
 
-<div>   
-    <a asp-controller="Home" asp-action="Index">LaptopShop</a>
+<div style="display:flex; justify-content:center;">
+    <a asp-controller="Home" asp-action="Index" class="btn btn-primary" style="margin:50px">Home</a>
+    <a asp-controller="Home" asp-action="Contact" class="btn btn-primary" style="margin:50px">Contacts</a>
+    <a asp-controller="Product" asp-action="Index" class="btn btn-primary" style="margin:50px">Products</a>
 </div>

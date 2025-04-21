@@ -15,7 +15,10 @@
                         <p><strong>№:</strong> @Model[i].Id</p>
                         <p><strong>Name:</strong> @Model[i].Name</p>
                         <p><strong>Email:</strong> @Model[i].Email</p>
-                        <p><strong>Message:</strong> @Model[i].Message</p>
+                        <p><strong>Message:</strong></p>
+                        <div class="message-box">
+                            @Model[i].Message
+                        </div>
                     </div>
                     <div class="message-footer">
                         <strong>Send date:</strong> @Model[i].SendDate.ToString("g")

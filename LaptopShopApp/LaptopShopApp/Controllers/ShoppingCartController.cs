@@ -11,6 +11,7 @@ using System.Security.Claims;
 
 namespace LaptopShopApp.Controllers
 {
+    
     public class ShoppingCartController : Controller
     {
         private readonly IShoppingCartService _cartService;
