@@ -16,7 +16,7 @@
                 <select asp-for="BrandId" class="form-control text-center">
                     @foreach (var brand in Model.Brands)
                     {
-                        <option value=" @brand.Id">@brand.Name</option>
+                        <option value="@brand.Id">@brand.Name</option>
                     }
                 </select>
                 <span asp-validation-for="BrandId" class="text-danger"></span>

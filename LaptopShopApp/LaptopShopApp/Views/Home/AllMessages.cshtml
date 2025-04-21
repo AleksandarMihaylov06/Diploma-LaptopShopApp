@@ -1,0 +1,31 @@
+﻿@model IList<LaptopShopApp.Models.Contact.ContactVM>
+@{
+    ViewData["Title"] = "AllMessages";
+}
+<h3 class="text-center mb-4">All Messages</h3>
+
+<form asp-controller="Home" asp-action="Contact" method="post">
+    <div class="message-container">
+        @if (Model != null && Model.Count > 0)
+        {
+            @for (int i = 0; i < Model.Count; i++)
+            {
+                <div class="message-card">
+                    <div class="message-content">
+                        <p><strong>№:</strong> @Model[i].Id</p>
+                        <p><strong>Name:</strong> @Model[i].Name</p>
+                        <p><strong>Email:</strong> @Model[i].Email</p>
+                        <p><strong>Message:</strong> @Model[i].Message</p>
+                    </div>
+                    <div class="message-footer">
+                        <strong>Send date:</strong> @Model[i].SendDate.ToString("g")
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <h4>No messages found!</h4>
+        }
+    </div>
+</form>

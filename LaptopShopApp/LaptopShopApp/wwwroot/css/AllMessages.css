@@ -1,0 +1,46 @@
+﻿.message-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    padding: 20px;
+}
+
+.message-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 320px;
+    height: 280px; 
+    margin: 10px;
+}
+
+.message-content {
+    flex-grow: 1;
+}
+
+.message-footer {
+    margin-top: auto;
+    padding-top: 10px;
+    font-size: 0.85rem;
+    color: #666;
+}
+
+    .message-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .message-card p {
+        margin-bottom: 10px;
+        font-size: 0.95rem;
+    }
+
+    .message-card strong {
+        font-weight: 600;
+    }

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
 using System.Security.Claims;
+using static NuGet.Packaging.PackagingConstants;
 
 namespace LaptopShopApp.Controllers
 {
@@ -49,18 +50,25 @@ namespace LaptopShopApp.Controllers
                              }
                         ).ToList()
                      }
-                ).OrderByDescending(x => x.OrderId);
+                ).OrderByDescending(x => x.OrderId).ToList();
 
             return View(orderProduct);
         }
 
+        [Authorize(Roles = "Administrator")]
         [HttpPost]
-        public ActionResult UpdateStatus(UpdateOrderStatusVM vm)
+        public ActionResult UpdateStatus(List<UpdateOrderStatusVM> orders)
         {
-            return RedirectToAction(nameof(Create));
+            foreach (var item in orders)
+            {
+                _orderService.UpdateStatus(item.OrderId, item.OrderStatus);
+            }
+
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: OrderController/Create
+        [Authorize]
         public ActionResult Create()
         {
             string currentUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -87,6 +95,7 @@ namespace LaptopShopApp.Controllers
         }
 
         // POST: OrderController/Create
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(OrderCreateVM orderCreate)
@@ -121,6 +130,8 @@ namespace LaptopShopApp.Controllers
             }
             return View(orderCreate);
         }
+
+        [Authorize]
         public ActionResult MyOrders()
         {
             string currentUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -148,7 +159,7 @@ namespace LaptopShopApp.Controllers
                         ).ToList()
                      }
                 ).OrderByDescending(x => x.OrderId);
-            return View("Index",orderProduct);
+            return View(orderProduct);
         }
     }
 }

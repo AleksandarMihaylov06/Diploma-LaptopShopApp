@@ -17,6 +17,7 @@ namespace LaptopShopApp.Data
         public DbSet<Product> Products { get; set; }
         public DbSet<ShoppingCart> ShoppingCarts { get; set; }
         public DbSet<OrderProduct> OrderProducts { get; set; }
+        public DbSet<Messages> Messages { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<ShoppingCart>().HasKey(x => new { x.UserId, x.ProductId });

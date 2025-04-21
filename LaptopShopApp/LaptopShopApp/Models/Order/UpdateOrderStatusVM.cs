@@ -4,6 +4,7 @@ namespace LaptopShopApp.Models.Order
 {
     public class UpdateOrderStatusVM
     {
-       public IEnumerable<OrderIndexVM> Orders { get; set; }
+        public int OrderId { get; set; }
+        public OrderStatus OrderStatus { get; set; }
     }
 }

@@ -25,9 +25,10 @@ namespace LaptopShopApp.Controllers
 
         [AllowAnonymous]
         //GET: ProductController
-        public ActionResult Index(string searchStringCategoryName, string searchStringBrandName)
+        public ActionResult Index(string searchStringCategoryName, string searchStringBrandName, string searchStringProductName, string hasDiscount)
         {
-            List<ProductIndexVM> products = _productService.GetProducts(searchStringCategoryName, searchStringBrandName)
+            
+            List<ProductIndexVM> products = _productService.GetProducts(searchStringCategoryName, searchStringBrandName, searchStringProductName, hasDiscount == null ? false : true)
                 .Select(product => new ProductIndexVM
                 {
                     Id = product.Id,
@@ -44,8 +45,21 @@ namespace LaptopShopApp.Controllers
                     Discount = product.Discount,
                     HasDiscount = product.Discount != 0,
                 }).ToList();
-            return this.View(products);
+            
+            
+            ViewBag.Categories = _categoryService.GetCategories()
+       .Select(c => new CategoryPairVM { Id = c.Id, Name = c.CategoryName })
+       .ToList();
 
+            ViewBag.Brands = _brandService.GetBrands()
+                .Select(b => new BrandPairVM { Id = b.Id, Name = b.BrandName })
+                .ToList();
+
+            ViewBag.SelectedCategory = searchStringCategoryName;
+            ViewBag.SelectedBrand = searchStringBrandName;
+            ViewBag.SearchStringProductName = searchStringProductName;
+
+            return this.View(products);
         }
 
         [AllowAnonymous]
@@ -189,7 +203,7 @@ namespace LaptopShopApp.Controllers
                 Price = item.Price,
                 PriceWithDiscount = (item.Price - item.Price * item.Discount / 100).ToString("f2").ToString(),
                 Discount = item.Discount,
-                HasDiscount = item.Discount != 0,
+                HasDiscount = item.Discount != 0, 
             };
             return View(product);
         }

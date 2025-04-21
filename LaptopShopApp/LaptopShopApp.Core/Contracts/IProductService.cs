@@ -16,7 +16,8 @@ namespace LaptopShopApp.Core.Contracts
         Product GetProductById(int productId);
 
         bool RemoveById(int dogproductId);
-        List<Product> GetProducts(string searchStringCategoryName, string searchStringBrnadName);
+        List<Product> GetProducts(string searchStringCategoryName, string searchStringBrnadName/*,string productName, decimal minPrice, decimal maxPrice*/, string searchStringProductName, bool hasDiscount);
         void UpdateProduct(Product product);
+        IList<Product> TopSoldProducts(int productCount);
     }
 }

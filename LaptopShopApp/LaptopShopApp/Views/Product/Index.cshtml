@@ -1,6 +1,8 @@
 ﻿<head>
     <link rel="stylesheet" href="~/css/ProductIndex.css" />
 </head>
+@using LaptopShopApp.Models.Brand
+@using LaptopShopApp.Models.Category
 @model IEnumerable<LaptopShopApp.Models.Product.ProductIndexVM>
 @{
     ViewData["Title"] = "Index";
@@ -12,20 +14,67 @@
         <a asp-action="Create" class="btn btn-primary">Create New</a>
     </p>
 }
-<form asp-controller="Product" asp-action="Index" method="get">
-    <p style="display:flex; justify-content:center;">
-        Brand: <input type="text" name="SearchStringBrandName" />  Category: <input type="text" name="SearchStringCategoryName" />
-        <input type="submit" value="Filter" />
-    </p>
+<form asp-action="Index" method="get" style="display:flex; justify-content:center;">
+    <input type="text" name="searchStringProductName" value="@ViewBag.SearchStringProductName" placeholder="Search by product name" style="margin-right:10px;"/>
+    <select name="searchStringCategoryName" style="margin:0px 10px 0px 0px">
+        @{
+            var selectedCategory = ViewBag.SelectedCategory as string;
+            var categories = ViewBag.Categories as List<CategoryPairVM>;
+        }
+
+        @if (string.IsNullOrEmpty(selectedCategory))
+        {
+            <option value="" selected>-- All Categories --</option>
+        }
+        else
+        {
+            <option value="">-- All Categories --</option>
+        }
+
+        @foreach (var category in categories)
+        {
+            var selected = category.Name == selectedCategory ? "selected" : "";
+            <option value="@category.Name">@category.Name</option>
+        }
+    </select>
+
+    <select name="searchStringBrandName" style="margin:0px 10px 0px 0px">
+        @{
+            var selectedBrand = ViewBag.SelectedBrand as string;
+            var brands = ViewBag.Brands as List<BrandPairVM>;
+        }
+
+        @if (string.IsNullOrEmpty(selectedBrand))
+        {
+            <option value="" selected>-- All Brands --</option>
+        }
+        else
+        {
+            <option value="">-- All Brands --</option>
+        }
+
+        @foreach (var brand in brands)
+        {
+            var selected = brand.Name == selectedBrand ? "selected" : "";
+            <option value="@brand.Name">@brand.Name</option>
+        }
+    </select>
+    <label style="display: flex;align-items: center;">
+        Products only with discount:<input type="checkbox" name="hasDiscount" style="width:15px;height:15px; margin:5px 10px 0px 5px;" />
+    </label>
+
+    <button type="submit">Filter</button>
 </form>
+
 <div class="product-container">
     @foreach (var item in Model)
     {
         
         <a asp-action="Details" asp-route-id="@item.Id" style="text-decoration: none; color: inherit;"/>
-        <div class="product-card" style="width:380px;">
-            <img src="@Html.DisplayFor(modelItem => item.Picture)" alt="Image">
+        <div class="product-card" style="width:380px;height:600px;">
+            <img src="@Html.DisplayFor(modelItem => item.Picture)" style="width:350px;height:270px;" alt="Image">
             <hr />
+            <div style ="width:350px;height:250px;">
             <h3>@Html.DisplayFor(modelItem => item.ProductName)</h3>
             <p><strong>Category:</strong> @Html.DisplayFor(modelItem => item.CategoryName)</p>
             <p><strong>Discription:</strong>@Html.DisplayFor(modelItem => item.Discription)</p>
@@ -41,9 +90,12 @@
                 <strong>Price:</strong>
                 <span>@item.Price</span>
             }
-            <p><strong>Discount:</strong> @Html.DisplayFor(modelItem => item.Discount) %</p>
-
             
+            @if (item.HasDiscount)
+            {
+                <p><strong>Discount: </strong>@Html.DisplayFor(modelItem => item.Discount)%</p>
+            }
+            </div>
         </div>
     }
 </div>

@@ -1,35 +1,33 @@
 ﻿@using LaptopShopApp.Infrastructure.Data.Domain
-@model IList<LaptopShopApp.Models.Order.OrderIndexVM>
+@model IEnumerable<LaptopShopApp.Models.Order.OrderIndexVM>
 
 @{
     ViewData["Title"] = "Index";
 }
-<h3 class="text-center mb-4">All Orders</h3>
+<h3 class="text-center mb-4">My orders</h3>
 
 <form asp-controller="Order" asp-action="UpdateStatus" method="post">
-    <button type="submit" class="btn btn-outline-primary">Save changes</button>
 
-    @for (int i = 0; i < Model.Count; i++)
+    @foreach (var item in Model)
     {
         var statuses = Html.GetEnumSelectList<OrderStatus>();
 
         <details>
-            <summary>
-                <div class="d-flex justify-content-between">
-                    <span>@Model[i].OrderId</span>
-                    <span>@Model[i].UserName</span>
-                    <span>@Model[i].DateTime</span>
-                    <span>@Model[i].Address</span>
-                    <span>@Model[i].TotalPrice</span>
+                    <summary>
+                        <div>
+                            <div class="d-flex justify-content-between">
+                                <span>@item.OrderId</span>
+                                <span>@item.UserName</span>
+                                <span>@item.DateTime</span>
+                                <span>@item.Address</span>
+                                <span>@item.TotalPrice</span>
+                                <input asp-for="@item.OrderStatus" class="form-control d-inline w-auto" asp-items="@statuses" readonly />
+                            </div>
+                        </div>
+                    </summary>
 
-                    <select asp-for="@Model[i].OrderStatus" class="form-control d-inline w-auto" asp-items="@statuses"></select>
-                    <input asp-for="@Model[i].OrderId" type="hidden" />
-                </div>
-            </summary>
-    }
 
-
-            @foreach (var product in Model[i].OrderProducts)
+            @foreach (var product in item.OrderProducts)
             {
                 <div class="d-flex border rounded p-2">
                     <div class="mr-20">
