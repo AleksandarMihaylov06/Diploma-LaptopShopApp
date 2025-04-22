@@ -1,5 +1,6 @@
 ﻿using LaptopShopApp.Infrastructure.Data.Domain;
 using LaptopShopApp.Models.Client;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -15,6 +16,7 @@ namespace LaptopShopApp.Controllers
             _userManager = userManager;
         }
         // GET: ClientController
+        [Authorize]
         public async Task<IActionResult> Index()
         {
             var allUsers = this._userManager.Users

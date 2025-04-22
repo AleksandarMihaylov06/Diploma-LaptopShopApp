@@ -68,20 +68,7 @@ namespace LaptopShopApp.Core.Services
             {
                 products = products.Where(x => x.Brand.BrandName.ToLower().Contains(searchStringBrnadName.ToLower())).ToList();
             }
-            //if (!string.IsNullOrEmpty(productName))
-            //{
-            //    products = products.Where(p => p.ProductName.ToLower().Contains(productName.ToLower())).ToList();
-            //}
-
-            //if (minPrice != null)
-            //{
-            //    products = products.Where(p => p.Price >= minPrice).ToList();
-            //}
-
-            //if (maxPrice != null)
-            //{
-            //    products = products.Where(p => p.Price <= maxPrice).ToList();
-            //}
+            
             if (!string.IsNullOrEmpty(searchStringProductName))
             {
                 products = products.Where(p => p.ProductName.ToLower().Contains(searchStringProductName.ToLower())).ToList();

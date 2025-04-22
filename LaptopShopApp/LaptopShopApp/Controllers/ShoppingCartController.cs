@@ -4,6 +4,7 @@ using LaptopShopApp.Data;
 using LaptopShopApp.Infrastructure.Data.Domain;
 using LaptopShopApp.Models.Product;
 using LaptopShopApp.Models.ShoppingCart;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
@@ -22,6 +23,7 @@ namespace LaptopShopApp.Controllers
         }
 
         // GET: ShoppingCartController
+        [Authorize]
         public ActionResult Index()
         {
             string currentUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);

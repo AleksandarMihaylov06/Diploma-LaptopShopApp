@@ -34,30 +34,32 @@
     @foreach (var item in Model)
     {
 
-        <a  asp-controller="Product" asp-action="Details" asp-route-id="@item.Id" style="text-decoration: none; color: inherit;" />
-        <div class="product-card" style="width:380px;">
-            <img src="@Html.DisplayFor(modelItem => item.Picture)" alt="Image">
+        <a asp-action="Details" asp-route-id="@item.Id" style="text-decoration: none; color: inherit;" />
+        <div class="product-card" style="width:380px;height:600px;">
+            <img src="@Html.DisplayFor(modelItem => item.Picture)" style="width:350px;height:270px;" alt="Image">
             <hr />
-            <h3>@Html.DisplayFor(modelItem => item.ProductName)</h3>
-            <p><strong>Category:</strong> @Html.DisplayFor(modelItem => item.CategoryName)</p>
-            <p><strong>Discription:</strong>@Html.DisplayFor(modelItem => item.Discription)</p>
-            <p><strong>Quantity:</strong> @Html.DisplayFor(modelItem => item.Quantity)</p>
-            @if (item.HasDiscount)
-            {
-                <strong>Price:</strong>
-                <span style="text-decoration: line-through; color: darkred;">@item.Price lv.</span>
-                <span style="font-weight: bold; font-size: 20px; color: green;">@item.PriceWithDiscount lv.</span>
-            }
-            else
-            {
-                <strong>Price:</strong>
-                <span>@item.Price</span>
-            }
-            @if (item.HasDiscount)
-            {
-                <p><strong>Discount: </strong>@Html.DisplayFor(modelItem => item.Discount)%</p>
-            }
+            <div style="width:350px;height:250px;">
+                <h3>@Html.DisplayFor(modelItem => item.ProductName)</h3>
+                <p><strong>Category:</strong> @Html.DisplayFor(modelItem => item.CategoryName)</p>
+                <p><strong>Discription:</strong>@Html.DisplayFor(modelItem => item.Discription)</p>
+                <p><strong>Quantity:</strong> @Html.DisplayFor(modelItem => item.Quantity)</p>
+                @if (item.HasDiscount)
+                {
+                    <strong>Price:</strong>
+                    <span style="text-decoration: line-through; color: darkred;">@item.Price lv.</span>
+                    <span style="font-weight: bold; font-size: 20px; color: green;">@item.PriceWithDiscount lv.</span>
+                }
+                else
+                {
+                    <strong>Price:</strong>
+                    <span>@item.Price</span>
+                }
 
+                @if (item.HasDiscount)
+                {
+                    <p><strong>Discount: </strong>@Html.DisplayFor(modelItem => item.Discount)%</p>
+                }
+            </div>
         </div>
     }
 </div>

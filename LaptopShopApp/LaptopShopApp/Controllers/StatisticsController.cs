@@ -1,5 +1,6 @@
 ﻿using LaptopShopApp.Core.Contracts;
 using LaptopShopApp.Models.Statistic;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,6 +15,7 @@ namespace LaptopShopApp.Controllers
         }
 
         // GET: StatisticsController
+        [Authorize]
         public ActionResult Index()
         {
             StatisticVM statistics = new StatisticVM();

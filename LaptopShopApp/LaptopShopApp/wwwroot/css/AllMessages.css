@@ -24,9 +24,12 @@
     flex-grow: 1;
 }
 .message-box {
-    max-width:270px;
-    max-height: 100px;
-    overflow: scroll;
+    max-width: 270px;
+    max-height: 90px;
+    overflow-y: auto; /* Vertical scroll only */
+    overflow-x: hidden; /* Prevent horizontal scroll */
+    white-space: pre-wrap; /* Wrap long text instead of horizontal scroll */
+    word-wrap: break-word;
 }
 
 .message-footer {
