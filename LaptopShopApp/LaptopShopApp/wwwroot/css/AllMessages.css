@@ -28,7 +28,6 @@
     max-height: 90px;
     overflow-y: auto; /* Vertical scroll only */
     overflow-x: hidden; /* Prevent horizontal scroll */
-    white-space: pre-wrap; /* Wrap long text instead of horizontal scroll */
     word-wrap: break-word;
 }
 
