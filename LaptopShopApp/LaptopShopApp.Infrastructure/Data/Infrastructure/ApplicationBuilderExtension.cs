@@ -106,6 +106,10 @@ namespace LaptopShopApp.Infrastructure.Data.Infrastructure
                 new Brand {BrandName="Dell"},
                 new Brand {BrandName="HP"},
                 new Brand {BrandName="Apple"},
+                new Brand {BrandName="Logitech"},
+                new Brand {BrandName="Cougar"},
+                new Brand {BrandName="Razer"},
+                new Brand {BrandName="Canyon"},
                 new Brand {BrandName="Lenovo"},
             });
             dataBrands.SaveChanges();
